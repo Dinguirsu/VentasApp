@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WSVenta.Models;
+using WSVenta.Models.Response;
+using WSVenta.Models.ViewModels;
 
 namespace WSVenta.Controllers
 {
@@ -11,12 +12,53 @@ namespace WSVenta.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            using (VentaRealContext context = new VentaRealContext())
+            Respuesta respuesta = new Respuesta();
+
+            try
             {
-                var list = context.Clientes.ToList();
-                return Ok(list);
+                using (VentaRealContext _context = new VentaRealContext())
+                {
+                    var list = _context.Clientes.ToList();
+                    respuesta.Exito = 1;
+                    respuesta.Data = list;
+                }
+
             }
-                
+            catch (Exception ex)
+            {
+
+                respuesta.Mensaje = ex.Message;
+            }
+
+            return Ok(respuesta);
+
+        }
+
+        [HttpPost]
+        public IActionResult Add(ClienteRequest Data)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            try
+            {
+                using (VentaRealContext _context = new VentaRealContext())
+                {
+                    Cliente DBData = new Cliente();
+
+                    DBData.Nombre = Data.Nombre;
+                    _context.Clientes.Add(DBData);
+                    _context.SaveChanges();
+
+                    respuesta.Exito = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Mensaje = ex.Message;
+            }
+
+            return Ok(respuesta);
         }
     }
 }
