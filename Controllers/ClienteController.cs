@@ -2,6 +2,11 @@
 using WSVenta.Models;
 using WSVenta.Models.Response;
 using WSVenta.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WSVenta.Controllers
 {
