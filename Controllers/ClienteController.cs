@@ -12,6 +12,7 @@ namespace WSVenta.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClienteController : ControllerBase
     {
         [HttpGet]
